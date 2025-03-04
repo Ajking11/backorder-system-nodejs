@@ -1,0 +1,204 @@
+<%- include('../partials/header') %>
+<%- include('../partials/sidebar') %>
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <h1>
+      Dashboard
+      <small>Quick Overview</small>
+    </h1>
+  </section>
+
+  <!-- Main content -->
+  <section class="content">
+    <div class="row">
+      <div class="col-lg-6">
+        <div class="row">
+          <div class="col-lg-6 col-xs-12">
+            <!-- small box -->
+            <div class="small-box bg-teal">
+              <div class="inner">
+                <h3><%= counts.backorders %></h3>
+                <p>Backorders</p>
+              </div>
+              <div class="icon">
+                <i class="ion ion-android-list"></i>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6 col-xs-12">
+            <!-- small box -->
+            <div class="small-box bg-orange">
+              <div class="inner">
+                <h3><%= counts.products %></h3>
+                <p>Products</p>
+              </div>
+              <div class="icon">
+                <i class="fa fa-barcode"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-6 col-xs-12">
+            <!-- small box -->
+            <div class="small-box bg-purple">
+              <div class="inner">
+                <h3><%= counts.customers %></h3>
+                <p>Customers</p>
+              </div>
+              <div class="icon">
+                <i class="ion ion-android-contacts"></i>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6 col-xs-12">
+            <!-- small box -->
+            <div class="small-box bg-maroon">
+              <div class="inner">
+                <h3><%= counts.suppliers %></h3>
+                <p>Suppliers</p>
+              </div>
+              <div class="icon">
+                <i class="fa fa-truck"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div>
+          <canvas id="BackordersChart" width="300" height="110"></canvas>
+        </div>
+        <script>
+          document.addEventListener('DOMContentLoaded', function() {
+            var ctx = document.getElementById("BackordersChart");
+            var myChart = new Chart(ctx, {
+              type: 'bar',
+              data: {
+                labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+                datasets: [{
+                  label: '2016',
+                  data: <%- JSON.stringify(backorderData['2016']) %>,
+                  backgroundColor: 'rgba(155, 89, 182,0.3)',
+                  borderColor: 'rgba(142, 68, 173,1.0)',
+                  borderWidth: 1
+                },{
+                  label: '2017',
+                  data: <%- JSON.stringify(backorderData['2017']) %>,
+                  backgroundColor: 'rgba(52, 152, 219,0.3)',
+                  borderColor: 'rgba(41, 128, 185,1.0)',
+                  borderWidth: 1
+                },{
+                  label: '2018',
+                  data: <%- JSON.stringify(backorderData['2018']) %>,
+                  backgroundColor: 'rgba(46, 204, 113,0.3)',
+                  borderColor: 'rgba(39, 174, 96,1.0)',
+                  borderWidth: 1
+                }]
+              },
+              options: {
+                title: {
+                  display: true,
+                  text: 'Created Backorders'
+                },
+                scales: {
+                  yAxes: [{
+                    ticks: {
+                      beginAtZero:true
+                    }
+                  }]
+                }
+              }
+            });
+          });
+        </script>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="box box-info">
+          <div class="box-header with-border">
+            <h3 class="box-title">Latest Logs</h3>
+          </div><!-- /.box-header -->
+          <div class="box-body">
+            <ul class="timeline">
+              <% logs.forEach(function(log) { %>
+                <li class="time-label">
+                  <span class="bg-maroon"><%= log.date %></span>
+                </li>
+                <% log.entries.forEach(function(entry) { %>
+                  <li>
+                    <i class="<%= entry.actionIcon %>"></i>
+                    <div class="timeline-item">
+                      <h3 class="timeline-header no-border">
+                        <strong style="font-weight:600;color:#3c8dbc;"><%= entry.name %></strong>
+                        <%= entry.action %> a <%= entry.table %>:
+                      </h3>
+                      <div class="timeline-body"><%= entry.details %></div>
+                    </div>
+                  </li>
+                <% }); %>
+              <% }); %>
+              <li>
+                <i class="fa fa-clock-o bg-gray"></i>
+              </li>
+            </ul>
+          </div><!-- /.box-body -->
+          <div class="box-footer clearfix">
+          </div><!-- /.box-footer -->
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="box box-info">
+          <div class="box-header with-border">
+            <h3 class="box-title">Latest Added Backorders</h3>
+          </div><!-- /.box-header -->
+          <div class="box-body">
+            <div class="row">
+              <div class="col-xs-12">
+                <div style="text-align: center" class="col-sm-4 bg-light-blue pad">Noted</div>
+                <div style="text-align: center" class="col-sm-4 bg-orange pad">Ordered</div>
+                <div style="text-align: center" class="col-sm-4 bg-green pad">Instock</div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-12">
+                <div class="table-responsive">
+                  <table class="table no-margin table-striped">
+                    <thead>
+                      <tr>
+                        <th>Item</th>
+                        <th>Quantity</th>
+                        <th>Customer</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <% latestBackorders.forEach(function(backorder) { %>
+                        <tr class="<%= 
+                          backorder.order_status === 'Noted' ? 'bg-light-blue' : 
+                          backorder.order_status === 'Ordered' ? 'bg-orange' : 
+                          backorder.order_status === 'InStock' ? 'bg-green' : '' 
+                        %>">
+                          <td><%= backorder.item_name %></td>
+                          <td><%= backorder.quantity %></td>
+                          <td><%= backorder.customer_name %></td>
+                        </tr>
+                      <% }); %>
+                    </tbody>
+                  </table>
+                </div><!-- /.table-responsive -->
+              </div>
+            </div>
+          </div><!-- /.box-body -->
+          <div class="box-footer clearfix">
+          </div><!-- /.box-footer -->
+        </div>
+      </div>
+    </div>
+  </section><!-- /.content -->
+</div><!-- /.content-wrapper -->
+
+<%- include('../partials/footer') %>

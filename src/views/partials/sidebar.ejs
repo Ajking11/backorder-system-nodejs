@@ -1,0 +1,77 @@
+<!-- Left side column. contains the logo and sidebar -->
+<aside class="main-sidebar">
+
+  <!-- sidebar: style can be found in sidebar.less -->
+  <section class="sidebar">
+
+    <!-- Sidebar user panel (optional) -->
+    <div class="user-panel">
+      <div class="pull-left image">
+        <img src="/images/avatars/<%= userDetails ? userDetails.avatar : 'default.png' %>" class="img-circle" alt="User Image">
+      </div>
+      <div class="pull-left info">
+        <small>
+          <% 
+            const now = new Date();
+            const hour = now.getHours();
+            let greeting;
+            
+            if (hour < 12) {
+              greeting = "Good morning,";
+            } else if (hour >= 12 && hour < 17) {
+              greeting = "Good afternoon,";
+            } else if (hour >= 17 && hour < 19) {
+              greeting = "Good evening,";
+            } else {
+              greeting = "Good night,";
+            }
+          %>
+          <%= greeting %>
+        </small>
+        <p><%= user.name %></p>
+        <!-- Status -->
+      </div>
+    </div>
+
+    <!-- Sidebar Menu -->
+    <ul class="sidebar-menu">
+      <li class="header">MAIN NAVIGATION</li>
+      <!-- Optionally, you can add icons to the links -->
+      <li class="<%= title === 'Dashboard' ? 'active' : '' %>">
+        <a href="/dashboard"><i class="fa fa-dashboard"></i><span>Dashboard</span></a>
+      </li>
+      <li class="<%= title === 'Backorders' ? 'active' : '' %>">
+        <a href="/backorders"><i class="fa fa-clipboard"></i><span>Backorders</span></a>
+      </li>
+      <li class="treeview <%= ['Customers', 'Products', 'Suppliers', 'Backorders Database'].includes(title) ? 'active' : '' %>">
+        <a href="#"><i class="fa fa-database"></i> <span>Databases</span><i class="fa fa-angle-left pull-right"></i></a>
+        <ul class="treeview-menu">
+          <li class="<%= title === 'Customers' ? 'active' : '' %>">
+            <a href="/customers">Customers</a>
+          </li>
+          <li class="<%= title === 'Products' ? 'active' : '' %>">
+            <a href="/products">Products</a>
+          </li>
+          <li class="<%= title === 'Suppliers' ? 'active' : '' %>">
+            <a href="/suppliers">Suppliers</a>
+          </li>
+          <li class="<%= title === 'Backorders Database' ? 'active' : '' %>">
+            <a href="/backorders/database">Backorders</a>
+          </li>
+        </ul>
+      </li>
+      <li class="<%= title === 'Logs' ? 'active' : '' %>">
+        <a href="/logs"><i class="fa fa-newspaper"></i><span>Logs</span></a>
+      </li>
+      <li class="<%= title === 'User Accounts' ? 'active' : '' %>">
+        <a href="/users"><i class="fa fa-user"></i><span>User Accounts</span></a>
+      </li>
+
+      <% if (user.group === 2) { %>
+        <li class="header">Admin Controls</li>
+        <!-- Admin-only menu items can go here -->
+      <% } %>
+    </ul><!-- /.sidebar-menu -->
+  </section>
+  <!-- /.sidebar -->
+</aside>

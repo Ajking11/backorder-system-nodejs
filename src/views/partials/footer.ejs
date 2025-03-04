@@ -1,0 +1,27 @@
+  <div class="control-sidebar-bg"></div>
+</div><!-- ./wrapper -->
+
+<!-- Page Loading Modal -->
+<div class="loading-modal"><!-- Place at bottom of page --></div>
+
+<!-- REQUIRED JS SCRIPTS -->
+<script src="/js/jquery.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/adminlte.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
+<script src="/js/app.js"></script>
+
+<script>
+  $(document).ready(function() {
+    // Show loading modal on AJAX requests
+    $(document).on({
+      ajaxStart: function() { $('body').addClass('loading'); },
+      ajaxStop: function() { $('body').removeClass('loading'); }
+    });
+    
+    // Initialize AdminLTE
+    $.AdminLTE.layout.activate();
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+{
+  "name": "backorder-system-nodejs",
+  "version": "1.0.0",
+  "main": "src/app.js",
+  "scripts": {
+    "start": "node src/app.js",
+    "dev": "nodemon src/app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["backorder", "inventory", "management", "nodejs"],
+  "author": "",
+  "license": "ISC",
+  "description": "Node.js version of the backorder management system",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "cookie-parser": "^1.4.7",
+    "dotenv": "^16.4.7",
+    "ejs": "^3.1.10",
+    "express": "^4.21.2",
+    "express-session": "^1.18.1",
+    "jsonwebtoken": "^9.0.2",
+    "mysql2": "^3.12.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  }
+}
